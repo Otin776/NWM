@@ -22,7 +22,7 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}        # volitelné
-          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_BOT_TOKEN: ${{ secrets.8274218142:AAGbqcuXY_ws0Y4Yo2JLKpn0ydCVVcgpl-s }}
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
           DB_PATH: topics.db
           SEND_AS_MARKDOWN: '1'
