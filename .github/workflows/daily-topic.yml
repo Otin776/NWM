@@ -2,9 +2,10 @@ name: daily-topic
 
 on:
   schedule:
-    # Cron v UTC. Níže příklad: 07:00 CET (Praha) => 06:00 UTC (pozor letní/zimní čas).
-    # Doporučené: spouštět 07:00 Europe/Prague => Cron v UTC se musí upravit podle aktuálního offsetu.
-    - cron: '06 6 * * *'  # každý den v 06:06 UTC (přepočítej podle požadovaného času)
+    # Prague 17:37 CET (zimní čas) -> 16:37 UTC for months Nov, Dec, Jan, Feb
+    - cron: '5 17 * * 11,12,1,2'
+    # Prague 17:37 CEST (letní čas) -> 15:37 UTC for months Mar - Oct
+    - cron: '5 16 * * 3-10'
   workflow_dispatch: {}  # možnost spustit ručně
 
 jobs:
