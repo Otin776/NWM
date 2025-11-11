@@ -3,9 +3,7 @@ name: daily-topic
 on:
   schedule:
     # Prague 17:37 CET (zimní čas) -> 16:37 UTC for months Nov, Dec, Jan, Feb
-    - cron: '7 17 * * 11,12,1,2'
-    # Prague 17:37 CEST (letní čas) -> 15:37 UTC for months Mar - Oct
-    - cron: '7 16 * * 3-10'
+    - cron: '10 17 * * 11,12,1,2'
   workflow_dispatch: {}  # možnost spustit ručně
 
 jobs:
