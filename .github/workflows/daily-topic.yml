@@ -19,11 +19,11 @@ jobs:
       - name: Install deps
         run: python -m pip install -r requirements.txt
       - name: Run daily topic
-        env:
-          OPENAI_API_KEY: ${{secrets.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}}
-          OPENAI_MODEL: ${{secrets.gpt-4o-mini}}        # volitelné
-          TG_BOT_TOKEN: ${{secrets.8274218142:AAGbqcuXY_ws0Y4Yo2JLKpn0ydCVVcgpl-s}}
-          TG_CHAT_ID: ${{secrets.6703170656}}
+       env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}  # volitelné
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
           DB_PATH: topics.db
           SEND_AS_MARKDOWN: '1'
           TEMPERATURE: '0.4'
