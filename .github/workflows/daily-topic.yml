@@ -1,0 +1,37 @@
+name: daily-topic
+
+on:
+  schedule:
+    # Cron v UTC. Níže příklad: 07:00 CET (Praha) => 06:00 UTC (pozor letní/zimní čas).
+    # Doporučené: spouštět 07:00 Europe/Prague => Cron v UTC se musí upravit podle aktuálního offsetu.
+    - cron: '06 6 * * *'  # každý den v 06:06 UTC (přepočítej podle požadovaného času)
+  workflow_dispatch: {}  # možnost spustit ručně
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: python -m pip install -r requirements.txt
+      - name: Run daily topic
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}        # volitelné
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+          DB_PATH: topics.db
+          SEND_AS_MARKDOWN: '1'
+          TEMPERATURE: '0.4'
+          MAX_TOKENS: '600'
+        run: |
+          python app.py
+      - name: Upload DB as artifact (volitelné)
+        uses: actions/upload-artifact@v4
+        with:
+          name: topics-db
+          path: topics.db
