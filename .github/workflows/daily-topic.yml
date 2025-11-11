@@ -1,12 +1,42 @@
 name: daily-topic
 
 on:
-schedule:
-    # Prague 17:36 CET (zimní čas) -> 16:36 UTC for months Nov, Dec, Jan, Feb
-    - cron: '37 16 * * 11,12,1,2'
-    # Prague 17:36 CEST (letní čas) -> 15:36 UTC for months Mar - Oct
-    - cron: '37 15 * * 3-10'
+  schedule:
+    # Prague 17:37 CET (zimní čas) -> 16:37 UTC for months Nov, Dec, Jan, Feb
+    - cron: '43 16 * * 11,12,1,2'
+    # Prague 17:37 CEST (letní čas) -> 15:37 UTC for months Mar - Oct
+    - cron: '43 15 * * 3-10'
   workflow_dispatch: {}
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: python -m pip install -r requirements.txt
+      - name: Run daily topic
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+          DB_PATH: topics.db
+          SEND_AS_MARKDOWN: '1'
+          TEMPERATURE: '0.4'
+          MAX_TOKENS: '600'
+        run: |
+          python app.py
+      - name: Upload DB as artifact (optional)
+        uses: actions/upload-artifact@v4
+        with:
+          name: topics-db
+          path: topics.db
+
 
 jobs:
   send:
